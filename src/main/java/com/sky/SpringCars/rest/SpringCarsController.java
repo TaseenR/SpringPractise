@@ -27,23 +27,21 @@ public class SpringCarsController {
 
     @PostMapping("/createCar")
     public HttpEntity<Cars> create(@RequestBody Cars car) {
-        System.out.println("RECIEVED: " + car);
-        Cars created = this.service.create(car);
-        return new ResponseEntity<>(created, HttpStatus.CREATED);
+        return new ResponseEntity<>(this.service.create(car), HttpStatus.CREATED);
     }
 
     @PostMapping("/createMultiple")
     public HttpEntity<List<Cars>> Carlist(@RequestBody List<Cars> list){
-        System.out.println("RECIEVED a list of cars objects" + list);
-        List<Cars> created = this.service.createAll(list);
-        return new ResponseEntity<>(created, HttpStatus.CREATED);
+        if (this.service.createAll(list) != null){
+            return new ResponseEntity<>(this.service.createAll(list), HttpStatus.CREATED);
+        } else {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @GetMapping("/get/{id}")
     public HttpEntity<Cars> getById(@PathVariable Integer id) {
-        System.out.println("ID: " + id);
-        Cars car = this.service.getById(id);
-        return new ResponseEntity<>(car, HttpStatus.OK);
+        return new ResponseEntity<>(this.service.getById(id), HttpStatus.OK);
     }
 
     @PatchMapping("/update/{id}")
@@ -52,10 +50,6 @@ public class SpringCarsController {
             @RequestParam(value = "engineSize", required = true) Integer engineSize,
             @RequestParam(value = "name", required = true) String name,
             @RequestParam(value = "age", required = false) Integer age) {
-        System.out.println("ID: " + id);
-        System.out.println("Name: " + name);
-        System.out.println("Engine Size : " + engineSize);
-        System.out.println("Age: " + age);
 
         return this.service.update(id,name,age,engineSize);
     }

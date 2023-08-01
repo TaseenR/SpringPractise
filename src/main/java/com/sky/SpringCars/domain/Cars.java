@@ -1,7 +1,14 @@
 package com.sky.SpringCars.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Cars {
 
+    @Id
+    @GeneratedValue()
     private Integer age;
     private String name;
 
@@ -10,10 +17,21 @@ public class Cars {
     private Integer Id;
 
 
-    public Cars(Integer age, String name, Integer engineSize) {
+
+
+    public Cars(Integer Id, Integer age, String name, Integer engineSize) {
+        this.Id = Id;
         this.age = age;
         this.name = name;
         this.engineSize = engineSize;
+    }
+
+    public Integer getId() {
+        return Id;
+    }
+
+    public void setId(Integer id) {
+        Id = id;
     }
 
     public Integer getAge() {
@@ -38,5 +56,9 @@ public class Cars {
 
     public void setEngineSize(Integer engineSize) {
         this.engineSize = engineSize;
+    }
+
+    public String toString(){
+        return "Cars name is " + this.name;
     }
 }
